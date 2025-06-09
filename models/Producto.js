@@ -6,4 +6,4 @@ const productoSchema = new mongoose.Schema({
   stock: { type: Number, default: 0 }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Producto', productoSchema);
+module.exports = mongoose.model('producto', productoSchema);

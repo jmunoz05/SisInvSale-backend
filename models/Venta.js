@@ -11,5 +11,5 @@ const ventaSchema = new mongoose.Schema({
   reversada: { type: Boolean, default: false },  // Campo para marcar si la venta fue reversada
 });
 
-const Venta = mongoose.model('Venta', ventaSchema);
+const Venta = mongoose.model('venta', ventaSchema);
 module.exports = Venta;
