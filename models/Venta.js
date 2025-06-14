@@ -2,13 +2,13 @@
 const mongoose = require('mongoose');
 
 const ventaSchema = new mongoose.Schema({
-  cliente: { type: mongoose.Schema.Types.ObjectId, ref: 'Cliente' },
+  cliente: { type: mongoose.Schema.Types.ObjectId, ref: 'cliente' },
   productos: [{
-    producto: { type: mongoose.Schema.Types.ObjectId, ref: 'Producto' },
+    producto: { type: mongoose.Schema.Types.ObjectId, ref: 'producto' },
     cantidad: Number,
   }],
   fecha: { type: Date, default: Date.now },
-  reversada: { type: Boolean, default: false },  // Campo para marcar si la venta fue reversada
+  reversada: { type: Boolean, default: false }, 
 });
 
 const Venta = mongoose.model('venta', ventaSchema);

@@ -19,13 +19,13 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
 
   const { email, password } = req.body;
-  const usuario = await Usuario.findOne({ email });
+  const usuario = await Usuario.findOne({ 'email': email });
   if (!usuario) return res.status(400).json({ error: 'Usuario no encontrado' });
 
   const valido = await bcrypt.compare(password, usuario.password);
   if (!valido) return res.status(400).json({ error: 'Credenciales inválidas' });
 
-  const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, { expiresIn: '2h' });
+  const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   res.json({ token, usuario: { nombre: usuario.nombre, email: usuario.email } });
 
 }

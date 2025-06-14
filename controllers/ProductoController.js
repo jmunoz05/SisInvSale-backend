@@ -2,7 +2,19 @@ const Producto = require('../models/Producto');
 
 exports.obtenerProductos = async (req, res) => {
   try {
-    const productos = await Producto.find();
+
+    const productos = await Producto.aggregate([
+    {
+      $project: {
+        id: { $toString: '$_id' },
+        nombre: 1,
+        precio: 1,
+        stock: 1,
+        _id: 0
+      }
+    }
+  ]);
+
     res.json(productos);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -11,11 +23,10 @@ exports.obtenerProductos = async (req, res) => {
 
 exports.crearProducto = async (req, res) => {
   try {
-    const nuevoProducto = new Producto(req.body);
-    await nuevoProducto.save();
-    res.json(nuevoProducto);
+    const response = await new Producto(req.body).save();
+    res.json({success: true, id: response._id});
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ success:false, error: err.message });
   }
 };
 
@@ -30,9 +41,9 @@ exports.actualizarProducto = async (req, res) => {
 
 exports.eliminarProducto = async (req, res) => {
   try {
-    await Producto.findByIdAndDelete(req.params.id);
-    res.json({ mensaje: "Producto eliminado" });
+    const response = await Producto.findByIdAndDelete(req.params.id);
+    res.json({ success: true, id: response._id });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ success: false, error: err.message });
   }
 };
